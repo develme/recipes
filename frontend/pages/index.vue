@@ -2,15 +2,18 @@
 import type { ApiCollectionResponse } from "~/types/api";
 import type { Recipe } from "~/types/recipe";
 import type { AsyncDataRequestStatus } from "nuxt/app";
+import { refDebounced } from '@vueuse/core'
 
 const search = ref<string>();
+const searchDebounced = refDebounced(search, 500)
 const author = ref<string>();
 const ingredient = ref<string>();
 const page = ref<number>(1);
 
+
 const { data, status } = useFetch("/api/recipes", {
     query: {
-        search,
+        search: searchDebounced,
         author,
         ingredient,
         page,

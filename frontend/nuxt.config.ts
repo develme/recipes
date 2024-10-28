@@ -7,4 +7,6 @@ export default defineNuxtConfig({
     env: process.env.APP_ENV,
     apiUrl: process.env.API_URL,
   },
+
+  modules: ["@nuxt/eslint"],
 });

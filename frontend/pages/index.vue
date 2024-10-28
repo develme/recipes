@@ -19,7 +19,7 @@ if ($route.query.filters) {
     ingredient.value = filters.ingredient;
     page.value = filters.page;
 }
-const searchDebounced = refDebounced(search, 500);
+const searchDebounced = refDebounced(search, 300);
 
 const { data, status } = useFetch("/api/recipes", {
     query: {
@@ -55,6 +55,10 @@ watch([searchDebounced, author, ingredient, page], () => {
     }
 });
 
+watch([search, author, ingredient], () => {
+    page.value = 1;
+});
+
 const resetStatus = ref<"pending" | "done">();
 
 const resetFilters = () => {
@@ -67,7 +71,7 @@ const resetFilters = () => {
         page.value = 1;
 
         resetStatus.value = "done";
-    }, 550);
+    }, 350);
 };
 </script>
 <template>
@@ -123,14 +127,21 @@ const resetFilters = () => {
         <div class="flex flex-row justify-end width-full">
             <button
                 class="m-1"
-                :disabled="data.meta.current_page === 1"
+                :disabled="
+                    data?.meta?.current_page === undefined ||
+                    data?.meta?.current_page === 1
+                "
                 @click="page--"
             >
                 Previous
             </button>
             <button
                 class="m-1"
-                :disabled="data.data.length < data.meta.per_page"
+                :disabled="
+                    data?.meta?.per_page === undefined ||
+                    data?.data?.length === undefined ||
+                    data?.data?.length < data?.meta?.per_page
+                "
                 @click="page++"
             >
                 Next

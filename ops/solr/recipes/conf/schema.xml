@@ -3,10 +3,10 @@
     <fields>
         <field name="slug" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
         <field name="email" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
-        <field name="name" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+        <field name="name" type="text_general" multiValued="false" indexed="true" required="true" stored="true"/>
         <field name="description" type="text_general" multiValued="false" indexed="true" required="false" stored="true"/>
-        <field name="ingredient_name" type="string" multiValued="true" indexed="true" required="false" stored="true"/>
-        <field name="step_name" type="string" multiValued="true" indexed="true" required="false" stored="true"/>
+        <field name="ingredient_name" type="text_general" multiValued="true" indexed="true" required="false" stored="true"/>
+        <field name="step_name" type="text_general" multiValued="true" indexed="true" required="false" stored="true"/>
         <field name="created_at" type="date" multiValued="false" indexed="true" required="false" stored="true"/>
         <field name="_version_" type="long" multiValued="false" indexed="true" required="false" stored="true"/>
     </fields>

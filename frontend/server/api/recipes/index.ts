@@ -1,5 +1,5 @@
-import { ApiCollectionResponse } from "~/types/api";
-import { Recipe } from "~/types/recipe";
+import type { ApiCollectionResponse } from "~/types/api";
+import type { Recipe } from "~/types/recipe";
 
 export default defineEventHandler(async (event) => {
   const { search, author, ingredient, page } = getQuery(event) as {

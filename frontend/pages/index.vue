@@ -15,7 +15,7 @@ const { data, status } = useFetch("/api/recipes", {
         ingredient,
         page,
     },
-}) as any as {
+}) as unknown as {
     data: ApiCollectionResponse<Recipe>;
     status: AsyncDataRequestStatus;
 };
@@ -25,26 +25,26 @@ const { data, status } = useFetch("/api/recipes", {
     <div class="main">
         <h1>
             Recipes
-            <span class="text-normal" v-if="status === 'pending'">
+            <span v-if="status === 'pending'" class="text-normal">
                 Loading...
             </span>
         </h1>
         <div class="flex flex-row width-full mb-2">
             <div class="flex-col">
                 <label class="pr-2">Search</label>
-                <input label="Search" type="text" v-model="search" />
+                <input v-model="search" label="Search" type="text">
             </div>
             <div class="flex-col">
                 <label class="pr-2">Author</label>
-                <input label="Author" type="text" v-model="author" />
+                <input v-model="author" label="Author" type="text">
             </div>
             <div class="flex-col">
                 <label class="pr-2">Ingredient</label>
-                <input label="Ingredient" type="text" v-model="ingredient" />
+                <input v-model="ingredient" label="Ingredient" type="text">
             </div>
         </div>
-        <div class="flex flex-row flex-wrap flex-gap-md">
-            <template v-if="data" v-for="recipe in data.data">
+        <div v-if="data" class="flex flex-row flex-wrap flex-gap-md">
+            <template v-for="recipe in data.data" :key="recipe.data.slug">
                 <NuxtLink
                     class="card flex flex-column"
                     :to="{
@@ -66,10 +66,10 @@ const { data, status } = useFetch("/api/recipes", {
         </div>
         <!-- Pagination -->
         <div class="flex flex-row justify-end width-full">
-            <button @click="page--" :disabled="page === 1" class="m-1">
+            <button class="m-1" :disabled="page === 1" @click="page--">
                 Previous
             </button>
-            <button @click="page++" class="m-1">Next</button>
+            <button class="m-1" @click="page++">Next</button>
         </div>
     </div>
 </template>

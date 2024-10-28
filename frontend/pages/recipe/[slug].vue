@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import type { ApiResponse } from "~/types/api";
-import type { Recipe } from "~/types/recipe";
-
 const $route = useRoute();
 
 const { slug } = $route.params;

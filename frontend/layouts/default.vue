@@ -3,7 +3,9 @@ import "~/assets/css/main.css";
 </script>
 
 <template>
-    <slot></slot>
+    <div>
+        <slot />
+    </div>
 </template>
 
 <style></style>

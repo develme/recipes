@@ -1,5 +1,5 @@
-import { ApiResponse } from "~/types/api";
-import { Recipe } from "~/types/recipe";
+import type { ApiResponse } from "~/types/api";
+import type { Recipe } from "~/types/recipe";
 
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, "slug");

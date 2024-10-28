@@ -1,7 +1,7 @@
-import {
-  type NitroFetchOptions,
-  type NitroFetchRequest,
-  type AvailableRouterMethod,
+import type {
+  NitroFetchOptions,
+  NitroFetchRequest,
+  AvailableRouterMethod,
 } from "nitropack";
 
 export const useApiFetch = <T>(

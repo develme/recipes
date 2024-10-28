@@ -1,0 +1,11 @@
+html {
+    --color-primary: #003b4a;
+    --color-secondary: #ffb600;
+
+    --color-primary-hsl: 192.2, 100%, 14.5%;
+    --color-primary-hsl-lighten: 192.5, 100%, 30%;
+    --color-primary-hsl-darken: 195, 100%, 8%;
+
+    --color-secondary-hsl: 45, 100%, 50%;
+    --color-secondary-hsl-darken: 45, 100%, 40%;
+}

@@ -1,0 +1,237 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Laravel",
+        "version": "1.0.0",
+        "description": "Recipe API"
+    },
+    "servers": [
+        {
+            "url": "http:\/\/localhost\/api\/v1"
+        }
+    ],
+    "paths": {
+        "\/recipes": {
+            "get": {
+                "operationId": "v1.recipe.list",
+                "tags": [
+                    "Recipe"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "data": {
+                                                        "$ref": "#\/components\/schemas\/Recipe"
+                                                    },
+                                                    "links": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "self": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "self"
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "data",
+                                                    "links"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "data"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/recipes\/{recipe}": {
+            "get": {
+                "operationId": "v1.recipe.show",
+                "tags": [
+                    "Recipe"
+                ],
+                "parameters": [
+                    {
+                        "name": "recipe",
+                        "in": "path",
+                        "required": true,
+                        "description": "The recipe slug",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`App.Http.Resources.Recipe`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#\/components\/schemas\/App.Http.Resources.Recipe"
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "self": {
+                                                    "type": "string"
+                                                },
+                                                "list": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "self",
+                                                "list"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "App.Http.Resources.Recipe": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "slug",
+                    "name",
+                    "description",
+                    "email",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "App.Http.Resources.Recipe"
+            },
+            "Recipe": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "slug",
+                    "name",
+                    "description",
+                    "email",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Recipe"
+            }
+        },
+        "responses": {
+            "ModelNotFoundException": {
+                "description": "Not found",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

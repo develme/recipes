@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Pagination\Paginator;
 use App\Models\Recipe as RecipeModel;
 
 class Recipe
@@ -12,9 +12,9 @@ class Recipe
      * @param int $perPage
      * @param int $page
      * @param array{ingredient: string, author: string} $filters
-     * @return LengthAwarePaginator
+     * @return Paginator
      */
-    public function search(?string $search, int $perPage = 15, int $page = 1, array $filters = []): LengthAwarePaginator
+    public function search(?string $search, int $perPage = 15, int $page = 1, array $filters = []): Paginator
     {
         $builder = RecipeModel::with(['ingredients', 'steps' => function ($builder) {
             $builder->orderBy('order');
@@ -52,6 +52,6 @@ class Recipe
             $builder->where('email', '=', $filters['author']);
         }
 
-        return $builder->paginate($perPage, ['*'], 'page', $page);
+        return $builder->simplePaginate($perPage, ['*'], 'page', $page);
     }
 }

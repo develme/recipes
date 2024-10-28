@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Step } from "~/types/recipe";
+
 defineProps<{
     steps: Step[];
 }>();

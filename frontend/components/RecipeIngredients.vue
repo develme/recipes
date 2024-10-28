@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Ingredient } from "~/types/recipe";
+
 defineProps<{
     ingredients: Ingredient[];
 }>();

@@ -47,9 +47,28 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+
+    solr:
+        build:
+            context: .
+            dockerfile: ops/solr/Dockerfile
+        platform: linux/x86_64
+        networks:
+            - sail
+        volumes:
+            - ./ops/solr/recipes:/tmp-solr-config/recipes:ro
+            - sail-solr:/opt/solr/data
+        ports:
+            - "8983:8983"
+        command:
+            - solr-precreate
+            - recipes
+            - /tmp-solr-config/recipes
 networks:
     sail:
         driver: bridge
 volumes:
+    sail-solr:
+        driver: local
     sail-mysql:
         driver: local

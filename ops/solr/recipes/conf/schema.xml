@@ -1,0 +1,34 @@
+<schema name="recipes" version="1.5">
+    <uniqueKey>slug</uniqueKey>
+    <fields>
+        <field name="slug" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+        <field name="email" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+        <field name="name" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+        <field name="description" type="text_general" multiValued="false" indexed="true" required="false" stored="true"/>
+        <field name="ingredient_name" type="string" multiValued="true" indexed="true" required="false" stored="true"/>
+        <field name="step_name" type="string" multiValued="true" indexed="true" required="false" stored="true"/>
+        <field name="created_at" type="date" multiValued="false" indexed="true" required="false" stored="true"/>
+        <field name="_version_" type="long" multiValued="false" indexed="true" required="false" stored="true"/>
+    </fields>
+    <types>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+        <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+                <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="15"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+        </fieldType>
+        <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true"/>
+        <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+        <fieldType name="pdoubles" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+
+        <fieldType name="plongs" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    </types>
+</schema>

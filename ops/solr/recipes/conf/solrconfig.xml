@@ -681,7 +681,7 @@
     <!-- Shared parameters for multiple Request Handlers -->
     <initParams path="/update/**,/query,/select,/spell">
         <lst name="defaults">
-            <str name="df">_text_</str>
+            <str name="df">name</str>
         </lst>
     </initParams>
 
@@ -703,7 +703,7 @@
         <!-- a spellchecker built from a field of the main index -->
         <lst name="spellchecker">
             <str name="name">default</str>
-            <str name="field">_text_</str>
+            <str name="field">name</str>
             <str name="classname">solr.DirectSolrSpellChecker</str>
             <!-- the spellcheck distance measure used, the default is the internal levenshtein -->
             <str name="distanceMeasure">internal</str>

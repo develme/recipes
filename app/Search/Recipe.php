@@ -2,6 +2,7 @@
 
 namespace App\Search;
 
+use Illuminate\Support\Facades\Log;
 use Solarium\Client;
 use Solarium\QueryType\Select\Result\Result;
 
@@ -21,8 +22,7 @@ class Recipe extends Search
      * @var array{string: string}
      */
     protected const QUERY_FIELDS = [
-        'slug' => '2.0',
-        'name' => '1.5',
+        'name' => '2.0',
         'description' => '1.0',
         'ingredient_name' => '1.5',
         'step_name' => '1.5',
@@ -53,7 +53,11 @@ class Recipe extends Search
         $select->setRows($perPage);
         $select->addSort('created_at', $select::SORT_DESC);
 
-        $select->setQuery($query ?: '*');
+        if (!empty($query)) {
+            $select->setQuery("\"$query\"");
+        } else {
+            $select->setQuery('*:*');
+        }
 
         if (!empty($filters['ingredient'])) {
             $select->createFilterQuery('ingredient')->setQuery('ingredient_name:"' . $filters['ingredient'] . '"');
@@ -62,6 +66,15 @@ class Recipe extends Search
         if (!empty($filters['author'])) {
             $select->createFilterQuery('email')->setQuery('email:"' . $filters['author'] . '"');
         }
+
+        Log::debug('Solr query', [
+            'query' => $select->getQuery(),
+            'query_fields' => $this->getQueryFields(),
+            'filter_queries' => $select->getFilterQueries(),
+            'fields' => $select->getFields(),
+            'start' => $select->getStart(),
+            'rows' => $select->getRows(),
+        ]);
 
         return $this->client->select($select);
 

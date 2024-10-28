@@ -22,6 +22,9 @@ bun install
 
 ## Development Server
 
+### Run the application
+`cp .env.example .env`
+
 Start the development server on `http://localhost:3000`:
 
 ```bash

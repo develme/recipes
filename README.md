@@ -22,6 +22,7 @@ docker run --rm \
 
 ### Run the application
 `cp .env.example .env`
+`cp frontend/.env.example frontend/.env`
 
 `./vendor/bin/sail up -d`
 

@@ -33,7 +33,7 @@ class RecipeFactory extends Factory
      */
     public function definition(): array
     {
-        $name = Str::title(fake()->words(fake()->numberBetween(2, 5), true) . ' ' . fake()->randomElement(self::FOOD_TYPES));
+        $name = Str::title(fake()->words(fake()->numberBetween(5, 15), true) . ' ' . fake()->randomElement(self::FOOD_TYPES));
         return [
             'name' => $name,
             'slug' => Str::slug($name),

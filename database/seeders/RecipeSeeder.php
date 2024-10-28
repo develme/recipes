@@ -27,9 +27,13 @@ class RecipeSeeder extends Seeder
                 $step->order = $pos + 1;
             }
 
-            $recipe->steps()->createMany(
-                $steps->toArray()
-            );
+            try {
+                $recipe->steps()->createMany(
+                    $steps->toArray()
+                );
+            } catch (\Exception $e) {
+                // Handle the exception
+            }
         });
     }
 }

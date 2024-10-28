@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Search;
+namespace App\Index;
 
 interface HasIndexableData
 {

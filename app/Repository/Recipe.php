@@ -4,9 +4,15 @@ namespace App\Repository;
 
 use Illuminate\Contracts\Pagination\Paginator;
 use App\Models\Recipe as RecipeModel;
+use App\Search\Recipe as ReceiptSearch;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class Recipe
 {
+    public function __construct(private readonly ReceiptSearch $search)
+    {
+    }
+
     /**
      * @param string|null $search
      * @param int $perPage
@@ -16,42 +22,27 @@ class Recipe
      */
     public function search(?string $search, int $perPage = 15, int $page = 1, array $filters = []): Paginator
     {
-        $builder = RecipeModel::with(['ingredients', 'steps' => function ($builder) {
+        $result = $this->search->search($search, $perPage * ($page - 1), $perPage, $filters);
+
+        /** @var string[] $slugs */
+        $slugs = [];
+
+        /** @var $documents */
+        $documents = $result->getDocuments();
+
+        foreach ($documents as $document) {
+            $slugs[] = $document->slug;
+        }
+
+        $recipes = RecipeModel::with(['ingredients', 'steps' => function ($builder) {
             $builder->orderBy('order');
-        }]);
+        }])->whereIn('slug', $slugs)->get();
 
-        if (!empty($search)) {
-            $builder->where(function ($query) use ($search) {
-                $query->where('name', 'like', "%$search%");
-                $query->orWhere('description', 'like', "%$search%");
-                $query->orWhereExists(function ($query) use ($search) {
-                    $query->selectRaw('1')
-                        ->from('recipe_ingredients')
-                        ->where('name', 'like', "%$search%")
-                        ->whereColumn('recipe_id', 'recipes.id');
-                });
-                $query->orWhereExists(function ($query) use ($search) {
-                    $query->selectRaw('1')
-                        ->from('recipe_steps')
-                        ->where('name', 'like', "%$search%")
-                        ->whereColumn('recipe_id', 'recipes.id');
-                });
-            });
-        }
-
-        if (!empty($filters['ingredient'])) {
-            $builder->whereExists(function ($query) use ($filters){
-                $query->selectRaw('1')
-                    ->from('recipe_ingredients')
-                    ->where('name', '=', $filters['ingredient'])
-                    ->whereColumn('recipe_id', 'recipes.id');
-            });
-        }
-
-        if (!empty($filters['author'])) {
-            $builder->where('email', '=', $filters['author']);
-        }
-
-        return $builder->simplePaginate($perPage, ['*'], 'page', $page);
+        return new LengthAwarePaginator(
+            $recipes,
+            $result->getNumFound(),
+            $perPage,
+            $page, ['path' => LengthAwarePaginator::resolveCurrentPath(), 'pageName' => 'page']
+        );
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Index\HasIndexableData;
 use App\Models\Behaviors\WithSlugRouteBinding;
-use App\Search\HasIndexableData;
 use Database\Factories\RecipeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

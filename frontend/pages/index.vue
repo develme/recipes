@@ -3,6 +3,7 @@ import type { ApiCollectionResponse } from "~/types/api";
 import type { Recipe } from "~/types/recipe";
 import type { AsyncDataRequestStatus } from "nuxt/app";
 import { useFilterBehavior } from "~/composables/receipt/filter-behavior";
+import { useRecipeSeoDescription } from "~/composables/receipt/seo";
 
 const $route = useRoute();
 const $router = useRouter();
@@ -25,13 +26,48 @@ const { data, status } = useFetch("/api/recipes", {
         page,
     },
 }) as unknown as {
-    data: ApiCollectionResponse<
-        Recipe,
-        Record<string, unknown>,
-        { per_page: number; current_page: number }
+    data: Ref<
+        ApiCollectionResponse<
+            Recipe,
+            Record<string, unknown>,
+            { per_page: number; current_page: number }
+        >
     >;
     status: AsyncDataRequestStatus;
 };
+
+if (data.value) {
+    const description = computed(() => {
+        return data.value?.data
+            ?.map((recipe) => {
+                return useRecipeSeoDescription(recipe.data);
+            })
+            .join(" ");
+    });
+
+    useHead({
+        title: "Recipes",
+        meta: [
+            {
+                name: "description",
+                content: () => description.value as string,
+            },
+        ],
+    });
+
+    useSeoMeta({
+        title: "Recipes",
+        ogTitle: "Recipes",
+        description: () => description.value as string,
+        ogDescription: () => description.value as string,
+        author: "recipes@example.com",
+        creator: "recipes@example.com",
+        publisher: "recipes@example.com",
+        robots: "index, follow",
+        ogUrl: () => `${window.location.origin}/`,
+        ogType: "article",
+    });
+}
 
 const listStatus = computed(() => {
     if (resetStatus.value === "pending") return "pending";

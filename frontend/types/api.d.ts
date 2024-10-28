@@ -9,7 +9,9 @@ export type ApiResponse<
 export type ApiCollectionResponse<
   T,
   L extends Record<string, unknown> = Record<string, unknown>,
+  M extends Record<string, unknown> = Record<string, unknown>,
 > = {
   data: ApiResponse<T, L>[];
   links: L;
+  meta: M;
 };

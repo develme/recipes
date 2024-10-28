@@ -12,7 +12,7 @@ const { data } = useFetch(`/api/recipes/${slug}`);
             {{ data?.data?.name }}
         </h1>
         <h4>
-            <NuxtLink :to="{ path: '/' }" class="text-primary">Home</NuxtLink>
+            <nuxt-link :to="{ path: '/' }" class="text-primary">Home</nuxt-link>
         </h4>
         <p>
             <a class="text-normal pr-1 text-secondary" href="#ingredients"

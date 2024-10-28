@@ -45,7 +45,7 @@ const { data, status } = useFetch("/api/recipes", {
         </div>
         <div v-if="data" class="flex flex-row flex-wrap flex-gap-md">
             <template v-for="recipe in data.data" :key="recipe.data.slug">
-                <NuxtLink
+                <nuxt-link
                     class="card flex flex-column"
                     :to="{
                         name: 'recipe-slug',
@@ -61,7 +61,7 @@ const { data, status } = useFetch("/api/recipes", {
                             {{ recipe.data.email }}
                         </span>
                     </p>
-                </NuxtLink>
+                </nuxt-link>
             </template>
         </div>
         <!-- Pagination -->
